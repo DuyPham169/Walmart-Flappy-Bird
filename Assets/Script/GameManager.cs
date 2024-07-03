@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-
-    public GameObject player;
-    public GameObject pipes;
     public bool gameActive = true;
-    public int score = 0;
+    public GameObject gameOverScreen;
 
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject pipes;
+    [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private float spawnRate = 2f;
     private float lastSpawn;
+    private int score = 0;
 
     private void Awake()
     {
@@ -28,10 +31,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        GameOverCheck();
+        SpawnPipeSystem();
+    }
+
+    private void GameOverCheck()
+    {
         if (!gameActive)
             GetComponent<GameManager>().enabled = false;
-
-        SpawnPipeSystem();
     }
 
     private void SpawnPipeSystem()
@@ -48,5 +55,16 @@ public class GameManager : MonoBehaviour
         float pipeHeights = Random.Range(-5, 6);
         Vector2 pipeSpawnPosition = new Vector2(transform.position.x, transform.position.y + pipeHeights);
         Instantiate(pipes, pipeSpawnPosition, Quaternion.identity);
+    }
+
+    public void AddScore()
+    {
+        score += 1;
+        scoreText.text = score.ToString();
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

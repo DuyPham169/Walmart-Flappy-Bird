@@ -28,7 +28,12 @@ public class Player : MonoBehaviour
         if (collision.gameObject.layer == 3)
         {
             rb.velocity = new Vector2(0, 0);
+
+            // shut down the game and pop up game over screen
             GameManager.instance.gameActive = false;
+            GameManager.instance.gameOverScreen.SetActive(true);
+
+            // shut down player
             GetComponent<Collider2D>().enabled = false;
             GetComponent<Player>().enabled = false;
         }
@@ -38,7 +43,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == 6)
         {
-            GameManager.instance.score += 1;
+            GameManager.instance.AddScore();
         }
     }
 

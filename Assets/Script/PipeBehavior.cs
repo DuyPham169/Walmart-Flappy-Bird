@@ -16,11 +16,15 @@ public class PipeBehavior : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.instance.gameActive)
-            GetComponent<PipeBehavior>().enabled = false;
-
+        PipeGameOver();
         DestroyPipeAfterTime();
         PipeMovement();
+    }
+
+    private void PipeGameOver()
+    {
+        if (!GameManager.instance.gameActive)
+            GetComponent<PipeBehavior>().enabled = false;
     }
 
     private void DestroyPipeAfterTime()
