@@ -13,6 +13,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private LayerMask pipeLayer;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource flapSound;
+    [SerializeField] private AudioSource scoreSound;
+    [SerializeField] private AudioSource hitSound;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -27,6 +32,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == 3)
         {
+            hitSound.Play();
             rb.velocity = new Vector2(0, 0);
 
             // shut down the game and pop up game over screen
@@ -43,6 +49,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == 6)
         {
+            scoreSound.Play();
             GameManager.instance.AddScore();
         }
     }
@@ -52,6 +59,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.velocity = Vector2.up * jumpForce;
+            flapSound.Play();
         }
     }
 }
